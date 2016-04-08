@@ -970,6 +970,10 @@ var Easyrtc = function() {
 //
     /** @private */
     var peerConns = {};
+    /** [ml] hack begin **/
+    this._peerConns = peerConns;
+    /** [ml] hack end **/
+
 //
 // a map keeping track of whom we've requested a call with so we don't try to
 // call them a second time before they've responded.
@@ -3782,6 +3786,9 @@ var Easyrtc = function() {
                 onRemoveStreamHelper(otherUser, event.stream, event.stream.id || "default");
             };
             peerConns[otherUser] = newPeerConn;
+            /** [ml] hack begins */
+            self._peerConns[otherUser] = newPeerConn;
+            /** [ml] hack ends */
         } catch (e) {
             if (self.debugPrinter) {
                 self.debugPrinter(JSON.stringify(e));
@@ -5339,7 +5346,7 @@ window.easyrtc = new Easyrtc();
                 self.showError(self.errCodes.DEVELOPER_ERR, "The monitor video id passed to easyApp was bad, saw " + monitorVideoId);
                 return false;
             }
-    
+
             for (i in videoIds) {
                 if (!videoIds.hasOwnProperty(i)) {
                     continue;
@@ -5362,7 +5369,7 @@ window.easyrtc = new Easyrtc();
             videoIdToCallerMap[videoObject.id] = callerEasyrtcId;
         }
 
-        easyrtc.addEventListener("roomOccupants", 
+        easyrtc.addEventListener("roomOccupants",
             function(eventName, eventData) {
                 var i;
                 for (i = 0; i < numPEOPLE; i++) {
@@ -5392,7 +5399,7 @@ window.easyrtc = new Easyrtc();
             document.getElementById(monitorVideoId).muted = "muted";
         }
 
-        /** Sets an event handler that gets called when an incoming MediaStream is assigned 
+        /** Sets an event handler that gets called when an incoming MediaStream is assigned
          * to a video object. The name is poorly chosen and reflects a simpler era when you could
          * only have one media stream per peer connection.
          * @param {Function} cb has the signature function(easyrtcid, slot){}
@@ -5654,8 +5661,8 @@ window.easyrtc = new Easyrtc();
             easyrtc.connect(applicationName, nextInitializationStep, connectError);
         }
 
-        
-        
+
+
         var stream = easyrtc.getLocalStream(null);
         if (stream) {
             postGetUserMedia();
@@ -5697,5 +5704,5 @@ var easyrtc_constantStrings = {
   "statsNotSupported":"call statistics not supported by this browser, try Chrome.",
    "noWebrtcSupport":"Your browser doesn't appear to support WebRTC.",
    "gumFailed":"Failed to get access to local media. Error code was {0}.",
-   "requireAudioOrVideo":"At least one of audio and video must be provided"   
+   "requireAudioOrVideo":"At least one of audio and video must be provided"
 };
