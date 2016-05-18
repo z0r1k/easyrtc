@@ -6837,18 +6837,10 @@ var Easyrtc = function() {
                     }
                 }
 
-                if (window.mozRTCIceCandidate) {
-                    candidate = new mozRTCIceCandidate({
-                        sdpMLineIndex: msgData.label,
-                        candidate: msgData.candidate
-                    });
-                }
-                else {
-                    candidate = new RTCIceCandidate({
-                        sdpMLineIndex: msgData.label,
-                        candidate: msgData.candidate
-                    });
-                }
+                candidate = new RTCIceCandidate({
+                    sdpMLineIndex: msgData.label,
+                    candidate: msgData.candidate
+                });
                 pc = peerConns[caller].pc;
 
                 function iceAddSuccess() {}
