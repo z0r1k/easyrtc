@@ -4272,14 +4272,16 @@ var Easyrtc = function() {
          *
          */
         this.setVideoObjectSrc = function(videoObject, stream) {
-            if (stream && stream !== "") {
+            if (stream) {
                 videoObject.autoplay = true;
+                videoObject.volume = "1.0";
+
                 if ("srcObject" in videoObject) {
                     videoObject.srcObject = stream;
                 } else {
                     videoObject.src = URL.createObjectURL(stream);
                 }
-                videoObject.play();
+                // videoObject.play();
             }
             else {
                 self.clearMediaStream(videoObject);
