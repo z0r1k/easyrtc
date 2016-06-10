@@ -1917,7 +1917,7 @@ var Easyrtc = function() {
                 stream.streamName = streamName;
                 registerLocalMediaStreamByName(stream, streamName);
                 var videoObj, triesLeft, tryToGetSize, ele;
-                if (haveAudioVideo.video) {
+                if (haveAudioVideo.video && document && document.createElement) {
                     videoObj = document.createElement('video');
                     videoObj.muted = true;
                     triesLeft = 30;
